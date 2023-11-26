@@ -12,4 +12,4 @@ USER node
 COPY --chown=node:node . .
 RUN ["chmod", "755", "index.mjs"]
 
-CMD [ "node", "indec.mjs" ]
+CMD [ "node", "index.mjs" ]
