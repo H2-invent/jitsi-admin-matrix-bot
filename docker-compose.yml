@@ -9,7 +9,7 @@ services:
       JITSI_ADMIN_URL: ${JITSI_ADMIN_URL}
     restart: unless-stopped
     volumes:
-      - secret_data:/home/node/app/secret_storage
+      - secret_data:/home/node/app/crypto-storage
 
 volumes:
   secret_data:
