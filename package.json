@@ -1,0 +1,15 @@
+{
+  "name": "matrix_node_bot",
+  "version": "1.0.0",
+  "description": "matrix bot for jitsi-admin",
+  "main": "index.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "js-md5": "^0.8.3",
+    "matrix-bot-sdk": "^0.7.0"
+  }
+}

@@ -1,0 +1,6 @@
+/node_modules/
+/crypto-storage/matrix-sdk-crypto/conf
+/crypto-storage/matrix-sdk-crypto/db
+/crypto-storage/matrix-sdk-crypto/snap.0000000001B6F8BB
+/crypto-storage/bot.json
+/crypto-storage/bot-sdk.json
