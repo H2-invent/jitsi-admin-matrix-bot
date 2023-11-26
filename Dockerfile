@@ -1,5 +1,4 @@
-FROM node:20-alpine
-RUN apk install gcompat
+FROM node:20
 RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
 USER root
 WORKDIR /home/node/app

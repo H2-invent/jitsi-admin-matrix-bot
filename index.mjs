@@ -50,10 +50,13 @@ async function handleCommand(roomId, event) {
 
     // Check to ensure that the `!hello` command is being run
     const body = event['content']['body'];
-    if (!body?.startsWith("!jitsi")) return;
-    // Now that we've passed all the checks, we can actually act upon the command
-   await sendMessageWithUrl(client,roomId);
-   await changeRoomName(client, roomId);
+    if (body?.startsWith("!jitsi")){
+        await sendMessageWithUrl(client,roomId);
+        await changeRoomName(client, roomId);
+    }
+    if (body?.startsWith("!help")){
+        sendHelp(client,roomId)
+    }
 }
 
 function createConference(roomId) {
@@ -72,4 +75,11 @@ async function changeRoomName(client, roomId){
     if (!roomDescription.includes(conferenceUrl)){
         await client.sendStateEvent(roomId,'m.room.topic','',{'topic':roomDescription+"\n\r"+conferenceUrl})
     }
+}
+async function sendHelp(client, roomId){
+    await client.sendText(
+        roomId,
+        'Neue Konfernz mit "!jitsi" erstellen'
+    );
+
 }
