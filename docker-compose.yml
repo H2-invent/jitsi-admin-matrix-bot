@@ -3,6 +3,10 @@ version: '3.7'
 services:
   matrix-bot:
     build: .
+    environment:
+      MATRIX_URL: ${MATRIX_URL}
+      MATRIX_TOKEN: ${MATRIX_TOKEN}
+      JITSI_ADMIN_URL: ${JITSI_ADMIN_URL}
     restart: unless-stopped
     volumes:
       - secret_data:/home/node/app/secret_storage

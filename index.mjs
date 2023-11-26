@@ -54,7 +54,7 @@ async function handleCommand(roomId, event) {
         await sendMessageWithUrl(client,roomId);
         await changeRoomName(client, roomId);
     }
-    if (body?.startsWith("!help")){
+    if (body?.startsWith("!hilfe")){
         sendHelp(client,roomId)
     }
 }
@@ -79,7 +79,8 @@ async function changeRoomName(client, roomId){
 async function sendHelp(client, roomId){
     await client.sendText(
         roomId,
-        'Neue Konfernz mit "!jitsi" erstellen'
+        'Neue Konferenz mit "!jitsi" erstellen\n\r' +
+        'Diese Hilfeseite mit "!hilfe" anzeigen'
     );
 
 }
