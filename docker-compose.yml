@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  matrix-bot:
+    build: .
+    restart: unless-stopped
+    volumes:
+      - secret_data:/home/node/app/secret_storage
+
+volumes:
+  secret_data:
