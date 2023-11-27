@@ -45,6 +45,9 @@ async function handleCommand(roomId, event) {
         await sendMessageWithUrl(client,roomId);
         await changeRoomName(client, roomId);
     }
+    if (body?.startsWith("!join")){
+        await sendJoinConfernece(client,roomId);
+    }
     if (body?.startsWith("!hilfe")){
         sendHelp(client,roomId)
     }
@@ -67,9 +70,14 @@ async function createConference(roomId) {
 
 async function sendMessageWithUrl(client,roomId) {
     var url = await createConference(roomId);
+    await client.sendText(roomId, 'Die Konferenz für diesen Raum läuft unter dieser URL: '+ url);
+}
+
+async function sendJoinConfernece(client,roomId) {
+    var url = await createConference(roomId);
     await client.sendHtmlText(roomId, '<div role="button" tabindex="0" class="mx_AccessibleButton mx_MemberList_invite"><a href ="'+url+'">Hier der Konferenz beitreten</a></div> ');
 }
-send
+
 async function changeRoomName(client, roomId){
     var roomDescription =   await client.getRoomStateEvent(roomId,'m.room.topic');
     roomDescription = roomDescription.topic;
@@ -81,8 +89,10 @@ async function changeRoomName(client, roomId){
 async function sendHelp(client, roomId){
     await client.sendText(
         roomId,
-        'Neue Konferenz mit "!jitsi" erstellen\n\r' +
-        'Diese Hilfeseite mit "!hilfe" anzeigen'
+        'Neue Konferenz erstellen: !jitsi\n\r' +
+        'Direkt der Konferenz beitreten: !join\n\r'+
+        'Diese Hilfeseite anzeigen: !hilfe\n\r'
+
     );
 
 }
