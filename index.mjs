@@ -1,7 +1,7 @@
 import {AutojoinRoomsMixin, MatrixClient, RustSdkCryptoStorageProvider, SimpleFsStorageProvider} from "matrix-bot-sdk";
 import {md5} from 'js-md5';
 
-import {JITSI_ADMIN_URL, MATRIX_TOKEN, MATRIX_URL} from './config.mjs'
+import {JITSI_ADMIN_URL, MATRIX_DISPLAYNAME, MATRIX_TOKEN, MATRIX_URL} from './config.mjs'
 
 const cryptoProvider = new RustSdkCryptoStorageProvider("./crypto-storage/");
 
@@ -32,7 +32,7 @@ client.on("room.message", handleCommand);
 
 // Now that everything is set up, start the bot. This will start the sync loop and run until killed.
 client.start().then(() => console.log("Bot started!"));
-
+client.setDisplayName(MATRIX_DISPLAYNAME)
 // This is the command handler we registered a few lines up
 async function handleCommand(roomId, event) {
     // Don't handle unhelpful events (ones that aren't text messages, are redacted, or sent by us)
