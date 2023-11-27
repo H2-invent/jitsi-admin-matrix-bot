@@ -1,14 +1,5 @@
-
-
-import {
-    MatrixClient,
-    SimpleFsStorageProvider,
-    AutojoinRoomsMixin,
-    LogService,
-    LogLevel,
-    RustSdkCryptoStorageProvider
-} from "matrix-bot-sdk";
-import { md5 } from 'js-md5';
+import {AutojoinRoomsMixin, MatrixClient, RustSdkCryptoStorageProvider, SimpleFsStorageProvider} from "matrix-bot-sdk";
+import {md5} from 'js-md5';
 
 import {JITSI_ADMIN_URL, MATRIX_TOKEN, MATRIX_URL} from './config.mjs'
 
@@ -59,19 +50,30 @@ async function handleCommand(roomId, event) {
     }
 }
 
-function createConference(roomId) {
+async function createConference(roomId) {
+    var roomDescription =   await client.getRoomStateEvent(roomId,'m.room.topic');
+    roomDescription = roomDescription.topic;
+    const escapedBaseUrl = jitsiAdminServerUrl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+    const regex = new RegExp(escapedBaseUrl + '[^\\s\\n]+');
+    const match = roomDescription.match(regex);
+    if (match) {
+        return match[0];
+    }
+
     var hash = md5(roomId);
     return jitsiAdminServerUrl+'/m/'+hash;
 }
 
 async function sendMessageWithUrl(client,roomId) {
-    await client.sendText(roomId, 'Die Konferenz für diesen Raum läuft unter dieser URL: '+createConference(roomId));
+    var url = await createConference(roomId);
+    await client.sendHtmlText(roomId, '<div role="button" tabindex="0" class="mx_AccessibleButton mx_MemberList_invite"><a href ="'+url+'">Hier der Konferenz beitreten</a></div> ');
 }
-
+send
 async function changeRoomName(client, roomId){
     var roomDescription =   await client.getRoomStateEvent(roomId,'m.room.topic');
     roomDescription = roomDescription.topic;
-    var conferenceUrl = createConference(roomId);
+    var conferenceUrl = await createConference(roomId);
     if (!roomDescription.includes(conferenceUrl)){
         await client.sendStateEvent(roomId,'m.room.topic','',{'topic':roomDescription+"\n\r"+conferenceUrl})
     }
