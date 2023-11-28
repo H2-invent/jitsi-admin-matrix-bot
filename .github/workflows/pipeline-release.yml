@@ -61,7 +61,6 @@ jobs:
           artifactContentType: application/zip
           bodyFile: RELEASE_NOTE.md
 
-
   upload_dockerhub_main:
     needs:
       - create_release
