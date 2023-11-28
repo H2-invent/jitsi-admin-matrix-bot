@@ -15,7 +15,3 @@ Welcome to the inaugural release of our Matrix bot equipped with conference crea
 We're thrilled to launch this initial version of the Matrix bot, aiming to enhance user experience by simplifying conference creation and access within Matrix chat.
 
 Thank you for using our bot! We welcome your feedback to continue improving its functionality.
-
----
-
-Feel free to adjust the details and add any additional information or features specific to your bot's functionality.
