@@ -41,8 +41,6 @@ jobs:
 
       - run: unzip -qq artifact_${{github.run_number}}.zip -d artifact
 
-
-
       - name: Archive Release for application
         uses: thedoctor0/zip-release@0.7.1
         with:
