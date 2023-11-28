@@ -51,12 +51,6 @@ jobs:
           exclusions: '*.git* *.github*'
           directory: artifact
 
-      - name: Archive Release for websocket
-        uses: thedoctor0/zip-release@0.7.1
-        with:
-          type: 'zip'
-          filename: 'websocket.zip'
-          directory: artifact/nodejs
 
       - name: Create new Release with semantic-version tag
         uses: ncipollo/release-action@v1
