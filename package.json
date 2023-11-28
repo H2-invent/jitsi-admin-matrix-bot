@@ -5,9 +5,6 @@
   "main": "index.mjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "flow-remove-types src/ -d lib/",
-    "prepublish": "npm run build",
-    "flow": "flow"
   },
   "author": "",
   "license": "ISC",
