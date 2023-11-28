@@ -1,8 +1,7 @@
 import {AutojoinRoomsMixin, MatrixClient, RustSdkCryptoStorageProvider, SimpleFsStorageProvider} from "matrix-bot-sdk";
-import {md5} from 'js-md5';
 
-import {JITSI_ADMIN_URL, MATRIX_DISPLAYNAME, MATRIX_TOKEN, MATRIX_URL} from './config.mjs'
-
+import {MATRIX_DISPLAYNAME, MATRIX_TOKEN, MATRIX_URL} from './config.mjs'
+import {conferenceUtils} from './confernceUtils.mjs'
 const cryptoProvider = new RustSdkCryptoStorageProvider("./crypto-storage/");
 
 // LogService.muteModule("Metrics");
@@ -12,7 +11,7 @@ const cryptoProvider = new RustSdkCryptoStorageProvider("./crypto-storage/");
 // from where the web/chat interface is hosted. The server must support password registration without
 // captcha or terms of service (public servers typically won't work).
 const homeserverUrl = MATRIX_URL;
-const jitsiAdminServerUrl = JITSI_ADMIN_URL;
+
 
 // Use the access token you got from login or registration above.
 const accessToken = MATRIX_TOKEN;//"syt_aDJpbnZlbnRib3Q_NCOyzAPnpzQoyfACReZX_09Heja";
@@ -33,6 +32,7 @@ client.on("room.message", handleCommand);
 // Now that everything is set up, start the bot. This will start the sync loop and run until killed.
 client.start().then(() => console.log("Bot started!"));
 client.setDisplayName(MATRIX_DISPLAYNAME)
+const conferenceUtil = new conferenceUtils(client);
 // This is the command handler we registered a few lines up
 async function handleCommand(roomId, event) {
     // Don't handle unhelpful events (ones that aren't text messages, are redacted, or sent by us)
@@ -42,57 +42,13 @@ async function handleCommand(roomId, event) {
     // Check to ensure that the `!hello` command is being run
     const body = event['content']['body'];
     if (body?.startsWith("!jitsi")){
-        await sendMessageWithUrl(client,roomId);
-        await changeRoomName(client, roomId);
+        await conferenceUtil.sendMessageWithUrl(roomId);
+        await conferenceUtil.changeRoomName(roomId);
     }
     if (body?.startsWith("!join")){
-        await sendJoinConfernece(client,roomId);
+        await conferenceUtil.sendJoinConference(roomId);
     }
     if (body?.startsWith("!hilfe")){
-        sendHelp(client,roomId)
+        conferenceUtil.sendHelp(roomId)
     }
-}
-
-async function createConference(roomId) {
-    var roomDescription =   await client.getRoomStateEvent(roomId,'m.room.topic');
-    roomDescription = roomDescription.topic;
-    const escapedBaseUrl = jitsiAdminServerUrl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-
-    const regex = new RegExp(escapedBaseUrl + '[^\\s\\n]+');
-    const match = roomDescription.match(regex);
-    if (match) {
-        return match[0];
-    }
-
-    var hash = md5(roomId);
-    return jitsiAdminServerUrl+'/m/'+hash;
-}
-
-async function sendMessageWithUrl(client,roomId) {
-    var url = await createConference(roomId);
-    await client.sendText(roomId, 'Die Konferenz für diesen Raum läuft unter dieser URL: '+ url);
-}
-
-async function sendJoinConfernece(client,roomId) {
-    var url = await createConference(roomId);
-    await client.sendHtmlText(roomId, '<div role="button" tabindex="0" class="mx_AccessibleButton mx_MemberList_invite"><a href ="'+url+'">Hier der Konferenz beitreten</a></div> ');
-}
-
-async function changeRoomName(client, roomId){
-    var roomDescription =   await client.getRoomStateEvent(roomId,'m.room.topic');
-    roomDescription = roomDescription.topic;
-    var conferenceUrl = await createConference(roomId);
-    if (!roomDescription.includes(conferenceUrl)){
-        await client.sendStateEvent(roomId,'m.room.topic','',{'topic':roomDescription+"\n\r"+conferenceUrl})
-    }
-}
-async function sendHelp(client, roomId){
-    await client.sendText(
-        roomId,
-        'Neue Konferenz erstellen: !jitsi\n\r' +
-        'Direkt der Konferenz beitreten: !join\n\r'+
-        'Diese Hilfeseite anzeigen: !hilfe\n\r'
-
-    );
-
 }

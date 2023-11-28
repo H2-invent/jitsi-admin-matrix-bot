@@ -4,12 +4,18 @@
   "description": "matrix bot for jitsi-admin",
   "main": "index.mjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "flow-remove-types src/ -d lib/",
+    "prepublish": "npm run build",
+    "flow": "flow"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "js-md5": "^0.8.3",
     "matrix-bot-sdk": "^0.7.0"
+  },
+  "devDependencies": {
+    "flow-remove-types": "^2.222.0"
   }
 }
