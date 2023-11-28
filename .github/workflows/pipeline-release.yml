@@ -59,7 +59,7 @@ jobs:
           prerelease: false
           name: Release ${{ steps.version.outputs.version }}
           tag: ${{ steps.version.outputs.version }}
-          artifacts: artifact/application.zip,artifact/nodejs/websocket.zip
+          artifacts: artifact/application.zip
           artifactContentType: application/zip
           bodyFile: RELEASE_NOTE.md
 
