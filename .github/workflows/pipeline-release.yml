@@ -51,7 +51,6 @@ jobs:
           exclusions: '*.git* *.github*'
           directory: artifact
 
-
       - name: Create new Release with semantic-version tag
         uses: ncipollo/release-action@v1
         id: create_release
