@@ -41,14 +41,20 @@ async function handleCommand(roomId, event) {
 
     // Check to ensure that the `!hello` command is being run
     const body = event['content']['body'];
+
     if (body?.startsWith("!jitsi")){
         await conferenceUtil.sendMessageWithUrl(roomId);
         await conferenceUtil.changeRoomName(roomId);
     }
+
     if (body?.startsWith("!join")){
         await conferenceUtil.sendJoinConference(roomId);
     }
+
     if (body?.startsWith("!hilfe")){
         conferenceUtil.sendHelp(roomId)
+    }
+    if (body?.startsWith("!version")){
+        conferenceUtil.getVersion(roomId)
     }
 }
