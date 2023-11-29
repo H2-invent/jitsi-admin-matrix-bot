@@ -9,15 +9,21 @@ export class conferenceUtils {
     }
 
     async createConference(roomId) {
-        var roomDescription = await this.client.getRoomStateEvent(roomId, 'm.room.topic');
-        roomDescription = roomDescription.topic;
-        const escapedBaseUrl = JITSI_ADMIN_URL.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        try {
+            var roomDescription = await this.client.getRoomStateEvent(roomId, 'm.room.topic');
+            console.log(roomDescription);
+            roomDescription = roomDescription.topic;
+            const escapedBaseUrl = JITSI_ADMIN_URL.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-        const regex = new RegExp(escapedBaseUrl + '[^\\s\\n]+');
-        const match = roomDescription.match(regex);
-        if (match) {
-            return match[0];
+            const regex = new RegExp(escapedBaseUrl + '[^\\s\\n]+');
+            const match = roomDescription.match(regex);
+            if (match) {
+                return match[0];
+            }
+        }catch (e) {
+            console.log('The Room description was empty');
         }
+
 
         var hash = md5(roomId);
         return JITSI_ADMIN_URL + '/m/' + hash;
@@ -34,11 +40,21 @@ export class conferenceUtils {
     }
 
     async changeRoomName(roomId) {
-        var roomDescription = await this.client.getRoomStateEvent(roomId, 'm.room.topic');
-        roomDescription = roomDescription.topic;
+        var roomDescription ='';
+        try {
+            roomDescription = await this.client.getRoomStateEvent(roomId, 'm.room.topic');
+            roomDescription = roomDescription.topic;
+        }catch (e) {
+
+        }
         var conferenceUrl = await this.createConference(roomId);
         if (!roomDescription.includes(conferenceUrl)) {
-            await this.client.sendStateEvent(roomId, 'm.room.topic', '', {'topic': roomDescription + "\n\r" + conferenceUrl})
+            try {
+                await this.client.sendStateEvent(roomId, 'm.room.topic', '', {'topic': roomDescription + "\n\r" + conferenceUrl})
+            }catch (e) {
+                await this.client.sendText(roomId, 'Der Bot benötigt die Berechtigung "Moderator" um das Raumthema ändern zu dürfen.');
+            }
+
         }
     }
 
