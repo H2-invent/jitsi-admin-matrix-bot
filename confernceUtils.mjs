@@ -1,5 +1,5 @@
 import {md5} from "js-md5";
-import {JITSI_ADMIN_URL} from "./config.mjs";
+import {BOT_VERSION, JITSI_ADMIN_URL} from "./config.mjs";
 import gitRepoInfo from 'git-repo-info';
 
 export class conferenceUtils {
@@ -67,7 +67,7 @@ export class conferenceUtils {
     async getVersion(roomId) {
         const repoInfo = gitRepoInfo();
 
-        this.client.sendText(roomId, 'Version: '+repoInfo.tag);
+        this.client.sendText(roomId, 'Version: '+BOT_VERSION);
     }
 
 }

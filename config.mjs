@@ -4,3 +4,4 @@ export var JITSI_ADMIN_URL =process.env.JITSI_ADMIN_URL || 'https://jitsi-admin.
 export var MATRIX_USERNAME =process.env.MATRIX_USERNAME || 'h2inventbot';
 export var MATRIX_PASSWORD =process.env.MATRIX_PASSWORD || 'xxxxxxxx';
 export var MATRIX_DISPLAYNAME =process.env.MATRIX_DISPLAYNAME || 'Raumassistent';
+export var BOT_VERSION =process.env.BOT_VERSION || '<version-addhere>';
