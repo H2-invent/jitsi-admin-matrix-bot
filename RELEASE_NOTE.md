@@ -11,6 +11,7 @@ Welcome to the inaugural release of our Matrix bot equipped with conference crea
 - **!hilfe Command:** Use `!hilfe` to display a comprehensive list of available commands, providing users with quick access to the bot's functionalities.
 - **!jitsi Command:** Use `!jitsi` to Instantly initiate a new room in Jitsi if no room is specified in the current room description. This command streamlines the creation of conference rooms.
 - **!join Command:** Use `!join` to Generate a direct link enabling users to swiftly join ongoing conferences without hassle.
+- **!version Command:** Use `!version` to Generate a string with the version of the Bot.
 
 We're thrilled to launch this initial version of the Matrix bot, aiming to enhance user experience by simplifying conference creation and access within Matrix chat.
 
