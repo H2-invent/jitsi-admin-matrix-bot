@@ -9,21 +9,13 @@ export class conferenceUtils {
     }
 
     async createConference(roomId) {
-        try {
-            var roomDescription = await this.client.getRoomStateEvent(roomId, 'm.room.topic');
-            console.log(roomDescription);
-            roomDescription = roomDescription.topic;
+        var roomDescription = await this.getRoomTopic(roomId)
             const escapedBaseUrl = JITSI_ADMIN_URL.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-
             const regex = new RegExp(escapedBaseUrl + '[^\\s\\n]+');
             const match = roomDescription.match(regex);
             if (match) {
                 return match[0];
             }
-        }catch (e) {
-            console.log('The Room description was empty');
-        }
-
 
         var hash = md5(roomId);
         return JITSI_ADMIN_URL + '/m/' + hash;
@@ -40,13 +32,8 @@ export class conferenceUtils {
     }
 
     async changeRoomName(roomId) {
-        var roomDescription ='';
-        try {
-            roomDescription = await this.client.getRoomStateEvent(roomId, 'm.room.topic');
-            roomDescription = roomDescription.topic;
-        }catch (e) {
+        var roomDescription = await this.getRoomTopic(roomId)
 
-        }
         var conferenceUrl = await this.createConference(roomId);
         if (!roomDescription.includes(conferenceUrl)) {
             try {
@@ -65,6 +52,15 @@ export class conferenceUtils {
             'Direkt der Konferenz beitreten: !join\n\r' +
             'Diese Hilfeseite anzeigen: !hilfe\n\r'
         );
+    }
+    async getRoomTopic(roomId){
+        var roomDescription = '';
+        try {
+            roomDescription = await this.client.getRoomStateEvent(roomId, 'm.room.topic');
+            roomDescription = roomDescription.topic;
+        }catch (e) {
+        }
+        return roomDescription;
     }
 }
 
