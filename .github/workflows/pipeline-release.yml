@@ -45,7 +45,7 @@ jobs:
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "<version-addhere>"
-          replace: "{{ steps.version.outputs.version }}"
+          replace: steps.version.outputs.version
           regex: false
           include: "artifact/config.mjs"
 
