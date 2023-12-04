@@ -28,10 +28,11 @@ AutojoinRoomsMixin.setupOnClient(client);
 
 // Before we start the bot, register our command handler
 client.on("room.message", handleCommand);
-
+client.on("room.join", handlemembership);
 // Now that everything is set up, start the bot. This will start the sync loop and run until killed.
 client.start().then(() => console.log("Bot started!"));
 client.setDisplayName(MATRIX_DISPLAYNAME)
+
 const conferenceUtil = new conferenceUtils(client);
 // This is the command handler we registered a few lines up
 async function handleCommand(roomId, event) {
@@ -54,7 +55,14 @@ async function handleCommand(roomId, event) {
     if (body?.startsWith("!hilfe")){
         conferenceUtil.sendHelp(roomId)
     }
+    if (body?.startsWith("!starten")){
+        conferenceUtil.inviteAll(roomId)
+    }
     if (body?.startsWith("!version")){
         conferenceUtil.getVersion(roomId)
     }
+}
+
+async function handlemembership(roomId, event) {
+    conferenceUtil.sendWelcome(roomId)
 }

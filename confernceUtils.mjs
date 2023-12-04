@@ -32,6 +32,12 @@ export class conferenceUtils {
         await this.client.sendHtmlText(roomId, '<div role="button" tabindex="0" class="mx_AccessibleButton mx_MemberList_invite"><a href ="' + url + '">Hier der Konferenz beitreten</a></div> ');
     }
 
+    async inviteAll(roomId) {
+        var url = await this.createConference(roomId);
+        var text = '@room <h1>Diese Konferenz startet gerade</h1><br><a href="'+url+'">Jetzt dieser Konfernz beitreten</a>'
+        await this.client.sendHtmlText(roomId, text);
+    }
+
     async changeRoomName(roomId) {
         var roomDescription = await this.getRoomTopic(roomId)
 
@@ -51,6 +57,7 @@ export class conferenceUtils {
             roomId,
             'Neue Konferenz erstellen: !jitsi\n\r' +
             'Direkt der Konferenz beitreten: !join\n\r' +
+            'Konferenz für alle starten: !starten\n\r'+
             'Diese Hilfeseite anzeigen: !hilfe\n\r'
         );
     }
@@ -69,6 +76,14 @@ export class conferenceUtils {
 
         this.client.sendText(roomId, 'Version: '+BOT_VERSION);
     }
+    async sendWelcome(roomId) {
+        const text = 'Vielen Dank für die Einladung in diesen Raum.\n\r' +
+        ' Sie können mit mir chatten wie mit einem normalen Teilnehmenden.\n\r' +
+        ' Um auf alle meine Funktionen zugreifen zu können machen Sie mich bitte zu einem MODERATOR.\n\r' +
+        ' Alle weiteren Informationen erhalten sie durch tippen von "!hilfe"';
+        this.client.sendText(roomId, text);
 
+
+    }
 }
 
