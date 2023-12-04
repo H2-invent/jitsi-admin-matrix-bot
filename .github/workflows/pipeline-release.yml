@@ -48,6 +48,14 @@ jobs:
 
       - run: unzip -qq artifact_${{github.run_number}}.zip -d artifact
 
+      - name: Write semantic Version in config file
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "<version-addhere>"
+          replace: "${{ steps.version.outputs.version }}"
+          regex: false
+          include: "artifact/config.mjs"
+
 
 
       - name: Archive Release for application
