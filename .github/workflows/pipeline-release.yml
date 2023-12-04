@@ -85,7 +85,7 @@ jobs:
     with:
       reponame: 'h2invent/jitsi-admin-matrix-bot'
       dockerfile_path: './Dockerfile'
-      directory: 'artifact/'
+      directory: '.'
       version: h2invent/jitsi-admin-matrix-bot:latest,h2invent/jitsi-admin-matrix-bot:${{ needs.create_release.outputs.create_release_output }}
     secrets:
       dockerhub_password: ${{ secrets.DOCKERHUB_TOKEN }}
