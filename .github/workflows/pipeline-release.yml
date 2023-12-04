@@ -34,13 +34,13 @@ jobs:
           minor_pattern: "(MINOR)"
           change_path: .
           version_format: "${major}.${minor}.${patch}"
+
       - name: Write semantic Version in config file
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "<version-addhere>"
           replace: "${{ steps.version.outputs.version }}"
           regex: false
-          include: "config.mjs"
 
       - uses: actions/download-artifact@v3
         with:
