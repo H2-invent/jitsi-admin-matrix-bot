@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   matrix-bot:
-    build: .
+    image: h2invent/jitsi-admin-matrix-bot
     environment:
       MATRIX_URL: ${MATRIX_URL}
       MATRIX_TOKEN: ${MATRIX_TOKEN}
