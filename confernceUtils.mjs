@@ -81,9 +81,8 @@ export class conferenceUtils {
         ' Sie können mit mir chatten wie mit einem normalen Teilnehmenden.\n\r' +
         ' Um auf alle meine Funktionen zugreifen zu können machen Sie mich bitte zu einem MODERATOR.\n\r' +
         ' Alle weiteren Informationen erhalten sie durch tippen von "!hilfe"';
+
         this.client.sendText(roomId, text);
-
-
     }
 }
 
