@@ -1,5 +1,5 @@
 import {md5} from "js-md5";
-import {BOT_VERSION, JITSI_ADMIN_URL} from "./config.mjs";
+import {BOT_VERSION, JITSI_ADMIN_URL, SHOW_WARNING_OF_MIM} from "./config.mjs";
 import gitRepoInfo from 'git-repo-info';
 
 export class conferenceUtils {
@@ -77,10 +77,13 @@ export class conferenceUtils {
         this.client.sendText(roomId, 'Version: '+BOT_VERSION);
     }
     async sendWelcome(roomId) {
-        const text = 'Vielen Dank für die Einladung in diesen Raum.\n\r' +
+        var text = 'Vielen Dank für die Einladung in diesen Raum.\n\r' +
         ' Sie können mit mir chatten wie mit einem normalen Teilnehmenden.\n\r' +
         ' Um auf alle meine Funktionen zugreifen zu können machen Sie mich bitte zu einem MODERATOR.\n\r' +
         ' Alle weiteren Informationen erhalten sie durch tippen von "!hilfe"';
+        if (SHOW_WARNING_OF_MIM){
+            text += 'ACHTUNG: Der Bot kann alle Nachrichten lesen und die Nachrichten sind durch den Bot-Admin lesbar'
+        }
 
         this.client.sendText(roomId, text);
     }
