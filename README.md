@@ -59,10 +59,10 @@ Dies ist ein Bot, der für die Verwaltung von Jitsi-Meetings über Matrix erstel
 5. Possible Arguments
 
 ````shell
-MATRIX_URL=<Matrix Url>
+MATRIX_URL=<Matrix Url>|https://matrix.org
 MATRIX_TOKEN=<Matrix Token>
 MATRIX_PASSWORD=<Matrix password>
-JITSI_ADMIN_URL=<jitsi admin url>
+JITSI_ADMIN_URL=<jitsi admin url>|https://jitsi-admin.de
 MATRIX_DISPLAYNAME=<displayName of the bot>|"Raumassistent"
 SHOW_WARNING_OF_MIM=<boolean show if a warning>|false
 ````
