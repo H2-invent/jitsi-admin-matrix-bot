@@ -33,6 +33,13 @@ client.on("room.join", handlemembership);
 client.start().then(() => console.log("Bot started!"));
 client.setDisplayName(MATRIX_DISPLAYNAME)
 
+client.getWhoAmI().then(userInfo => {
+
+    console.log("Logged in as User:", userInfo.user_id);
+    console.log("Logged in with the device ID:", userInfo.device_id);
+}).catch(err => {
+    console.error("Error verifying session:", err);
+});
 const conferenceUtil = new conferenceUtils(client);
 // This is the command handler we registered a few lines up
 async function handleCommand(roomId, event) {
