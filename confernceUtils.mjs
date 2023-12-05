@@ -29,12 +29,12 @@ export class conferenceUtils {
 
     async sendJoinConference(roomId) {
         var url = await this.createConference(roomId);
-        await this.client.sendHtmlText(roomId, '<div role="button" tabindex="0" class="mx_AccessibleButton mx_MemberList_invite"><a href ="' + url + '">Hier der Konferenz beitreten</a></div> ');
+        await this.client.sendHtmlText(roomId, '<a href ="' + url + '">Hier der Konferenz beitreten</a> ');
     }
 
     async inviteAll(roomId) {
         var url = await this.createConference(roomId);
-        var text = '@room <h1>Diese Konferenz startet gerade</h1><br><a href="'+url+'">Jetzt dieser Konfernz beitreten</a>'
+        var text = '@room <h2>Diese Konferenz startet gerade</h2><br><a href="'+url+'">➡️Jetzt dieser Konfernz beitreten</a>'
         await this.client.sendHtmlText(roomId, text);
     }
 
