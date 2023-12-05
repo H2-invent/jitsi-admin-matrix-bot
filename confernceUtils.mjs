@@ -82,7 +82,7 @@ export class conferenceUtils {
         ' Um auf alle meine Funktionen zugreifen zu können machen Sie mich bitte zu einem MODERATOR.\n\r' +
         ' Alle weiteren Informationen erhalten sie durch tippen von "!hilfe"';
         if (SHOW_WARNING_OF_MIM){
-            text += 'ACHTUNG: Der Bot kann alle Nachrichten lesen und die Nachrichten sind durch den Bot-Admin lesbar'
+            text += '\n\rACHTUNG: Der Bot kann alle Nachrichten lesen und die Nachrichten sind durch den Bot-Admin lesbar'
         }
 
         this.client.sendText(roomId, text);
