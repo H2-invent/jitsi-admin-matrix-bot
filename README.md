@@ -55,7 +55,17 @@ Dies ist ein Bot, der für die Verwaltung von Jitsi-Meetings über Matrix erstel
    ```shell
    chown -R 1000:1000 /var/lib/docker/volumes/matrix-bot_secret_data/
    ```
+   
+5. Possible Arguments
 
+````shell
+MATRIX_URL=<Matrix Url>|https://matrix.org
+MATRIX_TOKEN=<Matrix Token>
+MATRIX_PASSWORD=<Matrix password>
+JITSI_ADMIN_URL=<jitsi admin url>|https://jitsi-admin.de
+MATRIX_DISPLAYNAME=<displayName of the bot>|"Raumassistent"
+SHOW_WARNING_OF_MIM=<boolean show if a warning>|false
+````
 ### Hinweise
 
 Stellen Sie sicher, dass die Umgebungsvariablen korrekt gesetzt sind und die Zugangsdaten sicher behandelt werden. Der Bot ermöglicht die Verwaltung von Jitsi-Meetings über Matrix und kann entsprechend konfiguriert werden.
