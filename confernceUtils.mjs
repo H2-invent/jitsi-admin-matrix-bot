@@ -77,13 +77,16 @@ export class conferenceUtils {
         this.client.sendText(roomId, 'Version: '+BOT_VERSION);
     }
     async sendWelcome(roomId) {
-        var text = 'Vielen Dank für die Einladung in diesen Raum.\n\r' +
-        ' Sie können mit mir chatten wie mit einem normalen Teilnehmenden.\n\r' +
-        ' Um auf alle meine Funktionen zugreifen zu können machen Sie mich bitte zu einem MODERATOR.\n\r' +
-        ' Alle weiteren Informationen erhalten sie durch tippen von "!hilfe"';
+        var text= 'Vielen Dank für die Einladung in diesen Raum.\n\r';
+
         if (SHOW_WARNING_OF_MIM){
-            text += '\n\rACHTUNG: Der Bot kann alle Nachrichten lesen und die Nachrichten sind durch den Bot-Admin lesbar'
+            text += '⚠️ Der Bot kann alle Nachrichten lesen und die Nachrichten sind durch den Bot-Admin lesbar\n\r'
         }
+
+        text +='✍️ Sie können mit mir chatten wie mit einem normalen Teilnehmenden.\n\r' +
+        '✅ Um auf alle meine Funktionen zugreifen zu können machen Sie mich bitte zu einem MODERATOR.\n\r' +
+        '❓️ Alle weiteren Informationen erhalten sie durch tippen von "!hilfe"';
+
 
         this.client.sendText(roomId, text);
     }
