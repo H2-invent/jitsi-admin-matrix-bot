@@ -80,12 +80,12 @@ export class conferenceUtils {
         var text= '<h2>Hallo, ich bin der Raumassistent.</h2><br> Ein Teammitglied hat mich in diesen Raum eingeladen.<br><br>';
 
         if (SHOW_WARNING_OF_MIM){
-            text += '⚠️ Kleiner Disclaimer zu Beginn: Ich kann <b>alle Nachrichten</b> in diesem Chat mitlesen. Nicht nur Nachrichten an mich.<br>'
+            text += '⚠️ Kleiner Disclaimer zu Beginn: Ich kann <b>alle Nachrichten</b> in diesem Chat mitlesen. Nicht nur Nachrichten an mich.<br><br>'
         }
 
-        text +='<b>Hier sind einige Dinge, die ich tun kann:</b>' +
+        text +='<b>Hier sind einige Dinge, die ich tun kann:</b><br><br>' +
             '<ul>'+
-            '<li>📹️ Ich kann Videokonfernzen in diesem Raumn erstellen und verwalten</li>'
+            '<li>📹️ Ich kann Videokonfernzen in diesem Raumn erstellen und verwalten</li>'+
             '<li>✍️ Sie können mit mir chatten wie mit einem normalen Teilnehmenden.</li>' +
         '<li>✅ Um auf alle meine Funktionen zugreifen zu können machen Sie mich bitte zu einem MODERATOR.</li>' +
         '<li>❓️ Alle weiteren Informationen erhalten sie durch tippen von "!hilfe"</li>'
