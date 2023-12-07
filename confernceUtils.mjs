@@ -77,18 +77,22 @@ export class conferenceUtils {
         this.client.sendText(roomId, 'Version: '+BOT_VERSION);
     }
     async sendWelcome(roomId) {
-        var text= 'Vielen Dank für die Einladung in diesen Raum.\n\r';
+        var text= '<h2>Hallo, ich bin der Raumassistent.</h2><br> Ein Teammitglied hat mich in diesen Raum eingeladen.<br><br>';
 
         if (SHOW_WARNING_OF_MIM){
-            text += '⚠️ Der Bot kann alle Nachrichten lesen und die Nachrichten sind durch den Bot-Admin lesbar\n\r'
+            text += '⚠️ Kleiner Disclaimer zu Beginn: Ich kann <b>alle Nachrichten</b> in diesem Chat mitlesen. Nicht nur Nachrichten an mich.<br>'
         }
 
-        text +='✍️ Sie können mit mir chatten wie mit einem normalen Teilnehmenden.\n\r' +
-        '✅ Um auf alle meine Funktionen zugreifen zu können machen Sie mich bitte zu einem MODERATOR.\n\r' +
-        '❓️ Alle weiteren Informationen erhalten sie durch tippen von "!hilfe"';
+        text +='<b>Hier sind einige Dinge, die ich tun kann:</b>' +
+            '<ul>'+
+            '<li>📹️ Ich kann Videokonfernzen in diesem Raumn erstellen und verwalten</li>'
+            '<li>✍️ Sie können mit mir chatten wie mit einem normalen Teilnehmenden.</li>' +
+        '<li>✅ Um auf alle meine Funktionen zugreifen zu können machen Sie mich bitte zu einem MODERATOR.</li>' +
+        '<li>❓️ Alle weiteren Informationen erhalten sie durch tippen von "!hilfe"</li>'
+        +'</ul>';
 
 
-        this.client.sendText(roomId, text);
+        this.client.sendHtmlText(roomId, text);
     }
 }
 

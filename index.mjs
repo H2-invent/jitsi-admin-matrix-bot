@@ -1,7 +1,15 @@
-import {AutojoinRoomsMixin, MatrixClient, RustSdkCryptoStorageProvider, SimpleFsStorageProvider, LogService, LogLevel} from "matrix-bot-sdk";
+import {
+    AutojoinRoomsMixin,
+    MatrixClient,
+    RustSdkCryptoStorageProvider,
+    SimpleFsStorageProvider,
+    LogService,
+    LogLevel
+} from "matrix-bot-sdk";
 
 import {MATRIX_DISPLAYNAME, MATRIX_TOKEN, MATRIX_URL} from './config.mjs'
 import {conferenceUtils} from './confernceUtils.mjs'
+
 const cryptoProvider = new RustSdkCryptoStorageProvider("./crypto-storage/");
 
 // LogService.muteModule("Metrics");
@@ -41,6 +49,7 @@ client.getWhoAmI().then(userInfo => {
     console.error("Error verifying session:", err);
 });
 const conferenceUtil = new conferenceUtils(client);
+
 // This is the command handler we registered a few lines up
 async function handleCommand(roomId, event) {
     // Don't handle unhelpful events (ones that aren't text messages, are redacted, or sent by us)
@@ -48,24 +57,24 @@ async function handleCommand(roomId, event) {
     if (event['sender'] === await client.getUserId()) return;
 
     // Check to ensure that the `!hello` command is being run
-    const body = event['content']['body'];
-
-    if (body?.startsWith("!jitsi")){
+    let body = event['content']['body'];
+    body = body.toLowerCase();
+    if (body?.startsWith("!jitsi")) {
         await conferenceUtil.sendMessageWithUrl(roomId);
         await conferenceUtil.changeRoomName(roomId);
     }
 
-    if (body?.startsWith("!join")){
+    if (body?.startsWith("!join")) {
         await conferenceUtil.sendJoinConference(roomId);
     }
 
-    if (body?.startsWith("!hilfe")){
+    if (body?.startsWith("!hilfe")) {
         conferenceUtil.sendHelp(roomId)
     }
-    if (body?.startsWith("!starten")){
+    if (body?.startsWith("!starten")) {
         conferenceUtil.inviteAll(roomId)
     }
-    if (body?.startsWith("!version")){
+    if (body?.startsWith("!version")) {
         conferenceUtil.getVersion(roomId)
     }
 }
