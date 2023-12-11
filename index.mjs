@@ -60,12 +60,12 @@ async function handleCommand(roomId, event) {
     let body = event['content']['body'];
     body = body.toLowerCase();
     if (body?.startsWith("!jitsi")) {
-        await conferenceUtil.sendMessageWithUrl(roomId);
-        await conferenceUtil.changeRoomName(roomId);
+         conferenceUtil.sendMessageWithUrl(roomId);
+         conferenceUtil.changeRoomName(roomId);
     }
 
     if (body?.startsWith("!join")) {
-        await conferenceUtil.sendJoinConference(roomId);
+        conferenceUtil.sendJoinConference(roomId);
     }
 
     if (body?.startsWith("!hilfe")) {
