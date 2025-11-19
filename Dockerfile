@@ -5,7 +5,7 @@ WORKDIR /home/node/app
 
 COPY --chown=node:node package*.json ./
 
-RUN npm install
+RUN npm ci --omit=dev
 
 USER node
 COPY --chown=node:node . .
