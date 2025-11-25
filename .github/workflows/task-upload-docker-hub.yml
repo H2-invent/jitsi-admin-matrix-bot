@@ -12,9 +12,12 @@ name: Publish Docker image
 on:
   workflow_call:
     inputs:
+      registry:
+        description: 'Login Registry'
+        type: string
       reponame:
         description: 'the image name of the docker hub image'
-        default: 'h2invent/jitsi-admin-main'
+        default: 'h2invent/jitsi-admin-matrix-bot-main'
         required: true
         type: string
       directory:
@@ -60,6 +63,7 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
         with:
+          registry: ${{ inputs.registry }}
           username: ${{ secrets.dockerhub_username }}
           password: ${{ secrets.dockerhub_password }}
 

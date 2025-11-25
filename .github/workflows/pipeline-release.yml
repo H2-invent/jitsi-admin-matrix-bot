@@ -11,7 +11,7 @@ on:
 
 jobs:
   artifact:
-    uses: h2-invent/jitsi-admin-matrix-bot/.github/workflows/task-artifact.yml@master
+    uses: ./.github/workflows/task-artifact.yml
 
   create_release:
     needs:
@@ -54,7 +54,7 @@ jobs:
           find: "<version-addhere>"
           replace: "${{ steps.version.outputs.version }}"
           regex: false
-          include: "artifact/config.mjs"
+          include: "artifact/src/config.mjs"
 
 
 
@@ -81,12 +81,13 @@ jobs:
   upload_dockerhub_main:
     needs:
       - create_release
-    uses: h2-invent/jitsi-admin-matrix-bot/.github/workflows/task-upload-docker-hub.yml@master
+    uses: ./.github/workflows/task-upload-docker-hub.yml
     with:
       reponame: 'h2invent/jitsi-admin-matrix-bot'
+      registry: reg.h2-invent.com
       dockerfile_path: './Dockerfile'
       directory: '.'
       version: h2invent/jitsi-admin-matrix-bot:latest,h2invent/jitsi-admin-matrix-bot:${{ needs.create_release.outputs.create_release_output }}
     secrets:
-      dockerhub_password: ${{ secrets.DOCKERHUB_TOKEN }}
-      dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
+      dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
+      dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
