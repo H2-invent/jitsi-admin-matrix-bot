@@ -1,13 +1,11 @@
-name: Create Release
+name: Create Prerelease
 
 env:
   GITHUB_TOKEN: ${{ secrets.token }}
 
 on:
   push:
-    branches:
-      - main
-      - master
+    branches-ignore: [master, main]
 
 jobs:
   create_release:
@@ -27,7 +25,7 @@ jobs:
           major_pattern: "(MAJOR)"
           minor_pattern: "(MINOR)"
           change_path: .
-          version_format: "${major}.${minor}.${patch}"
+          version_format: "${major}.${minor}.${patch}-${increment}"
 
       - name: Create new Release with semantic-version tag
         uses: ncipollo/release-action@v1
@@ -49,7 +47,7 @@ jobs:
       dockerfile_path: './Dockerfile'
       directory: '.'
       version: ${{ needs.create_release.outputs.create_release_output }}
-      tags: reg.h2-invent.com/meetling/matrix-bot:latest,reg.h2-invent.com/meetling/matrix-bot:${{ needs.create_release.outputs.create_release_output }}
+      tags: reg.h2-invent.com/meetling/matrix-bot:dev,reg.h2-invent.com/meetling/matrix-bot:${{ needs.create_release.outputs.create_release_output }}
     secrets:
       dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
       dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}

@@ -1,15 +1,6 @@
-version: '3.7'
-
 services:
   matrix-bot:
-    image: h2invent/jitsi-admin-matrix-bot:latest
-    environment:
-      MATRIX_URL: ${MATRIX_URL}
-      MATRIX_TOKEN: ${MATRIX_TOKEN}
-      JITSI_ADMIN_URL: ${JITSI_ADMIN_URL}
+    image: reg.h2-invent.com/meetling/matrix-bot@sha256:64cb53c36933532f4ee0bc57f0c551900139dbddfdb338aa8557bb2ac64b7f76
+    env_file:
+      - .env
     restart: unless-stopped
-    volumes:
-      - secret_data:/home/node/app/crypto-storage
-
-volumes:
-  secret_data:

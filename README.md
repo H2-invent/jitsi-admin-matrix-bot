@@ -2,70 +2,62 @@
 
 Dies ist ein Bot, der für die Verwaltung von Jitsi-Meetings über Matrix erstellt wurde. Der Bot ermöglicht die Steuerung und Verwaltung von Meetings über eine Matrix-Instanz.
 
-### Installation
-
-#### Token erstellen
-
-1. Klonen des Repositorys:
-
-   ```
-   git clone https://de-h2-git01.h2.home/emanuel.holzmann/matrix-bot.git
-   ```
-
-2. Installation der benötigten Pakete:
-
-   ```
-   npm install
-   ```
-
-3. Generieren des Tokens:
-
-   Führen Sie den folgenden Befehl aus und ersetzen Sie `username`, `passwort` und `https://matrixdomain.org` durch die entsprechenden Anmeldeinformationen:
-
-   ```shell
-   MATRIX_USERNAME=username MATRIX_PASSWORD=passwort MATRIX_URL=https://matrixdomain.org node login.mjs 
-   ```
-
-   Der generierte Access-Token muss sicher aufbewahrt werden, da er der Schlüssel für den Docker-Container ist.
+### Nutzung
 
 #### Container starten
 
-1. Erneutes Checkout der Anwendung (optional, wenn bereits geklont):
+1. Klonen des Repositorys:
 
-   ```
-   git clone https://de-h2-git01.h2.home/emanuel.holzmann/matrix-bot.git
+   ```shell
+   git clone https://github.com/H2-invent/jitsi-admin-matrix-bot
    ```
 
-2. Wechseln in das Verzeichnis:
+1. Wechseln in das Verzeichnis:
 
-   ```
+   ```shell
    cd matrix-bot
    ```
+   
+1. Umgebungsvariablen setzen:
 
-3. Bauen der Anwendung und Starten des Containers mit `docker-compose`:
-
-   Führen Sie den folgenden Befehl aus und ersetzen Sie `tokenKommtHIerHer` durch den generierten Accesstoken aus Schritt 1, `https://matrixdomain.org` und `https://jitsi-admin-url.de` müssen durch reale URLs ersetzt werden:
-
-   ```shell
-   MATRIX_TOKEN=tokenKommtHIerHer MATRIX_URL=https://matrixdomain.org JITSI_ADMIN_URL=https://jitsi-admin-url.de docker-compose up --build -d
+    Führen Sie den folgenden Befehl aus und ersetzen Sie die Werte in `.env` mit der eigenen Konfiguration
+    ```shell
+   cp .env.example .env
    ```
 
-4. Berechtigungen für das Volume festlegen:
+1. Bauen der Anwendung und Starten des Containers mit `docker compose`:
 
    ```shell
-   chown -R 1000:1000 /var/lib/docker/volumes/matrix-bot_secret_data/
+   docker compose up --build -d
    ```
    
-5. Possible Arguments
 
-````shell
-MATRIX_URL=<Matrix Url>|https://matrix.org
-MATRIX_TOKEN=<Matrix Token>
-MATRIX_PASSWORD=<Matrix password>
-JITSI_ADMIN_URL=<jitsi admin url>|https://jitsi-admin.de
-MATRIX_DISPLAYNAME=<displayName of the bot>|"Raumassistent"
-SHOW_WARNING_OF_MIM=<boolean show if a warning>|false
-````
+#### Spezielle Kommandos per Socket
+
+Sie können dem Bot per Unix Socket Kommandos schicken, während er läuft und online ist. Er befindet sich unter `/run/jitsi-admin-matrix-bot/command.sock`
+
+##### Einfache Verwendung mit dem socket-command Script
+
+Das mitgelieferte Script `socket-command` bietet eine benutzerfreundliche Möglichkeit, Kommandos an den Bot zu senden:
+
+```shell
+# Interaktiver Modus - zeigt Menü mit verfügbaren Kommandos
+docker compose exec matrix-bot ./socket-command
+
+# Direktes Senden eines Kommandos per Name
+docker compose exec matrix-bot ./socket-command i-am-back
+
+# Hilfe anzeigen
+docker compose exec matrix-bot ./socket-command --help
+```
+
+##### Manuelle Verwendung
+
+- Ich bin wieder zurück!
+  - `i-am-back`
+  - Auf dem Server: `echo 'i-am-back' | socat - /run/jitsi-admin-matrix-bot/command.sock`
+  - Docker Compose: `docker compose exec matrix-bot sh -c "echo 'i-am-back' | socat - /run/jitsi-admin-matrix-bot/command.sock"`
+
 ### Hinweise
 
 Stellen Sie sicher, dass die Umgebungsvariablen korrekt gesetzt sind und die Zugangsdaten sicher behandelt werden. Der Bot ermöglicht die Verwaltung von Jitsi-Meetings über Matrix und kann entsprechend konfiguriert werden.

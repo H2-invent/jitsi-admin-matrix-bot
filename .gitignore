@@ -1,2 +1,4 @@
-/node_modules/
-/crypto-storage/
+.env
+.idea/
+node_modules/
+storage/
