@@ -31,7 +31,11 @@ on:
         required: true
         type: string
       version:
-        description: 'the version/tag of the Dockerfile image'
+        description: 'the version of the Dockerfile image'
+        required: true
+        type: string
+      tags:
+        description: 'the tag of the Dockerfile image'
         required: true
         type: string
 
@@ -79,4 +83,4 @@ jobs:
           push: true
           context: ${{ inputs.directory }}
           file: ${{ inputs.dockerfile_path }}
-          tags: ${{ inputs.version }}
+          tags: ${{ inputs.tags }}

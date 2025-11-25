@@ -65,14 +65,73 @@ export default class conferenceUtils {
     }
 
     async #sendHelpMessage(roomId) {
-        await this.#client.sendText(
+        await this.#client.sendHtmlText(
             roomId,
-            'Neue Raum-Konferenz erstellen:\t!meetling\n' +
-                'Direkt der Konferenz beitreten:\t!join\n' +
-                'Neue Sofortkonferenz erstellen:\t!sofort\n' +
-                'Raum in Konferenz einladen:\t\t!einladen\n' +
-                'Bot Versionsnummer anzeigen:\t!version\n' +
-                'Diese Hilfe anzeigen:\t\t\t!hilfe'
+            `
+            <h4>Verfügbare Kommandos:</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Kommando</th>
+                        <th>Beschreibung</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>!meetling</td>
+                        <td>
+                            <ul>
+                                <li>Erstellt eine neue Konferenz</li>
+                                <li>Schreibt Link dazu in die Gruppenbeschreibung</li>
+                                <li>Schickt Link in die Gruppe</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>!join</td>
+                        <td>
+                            <ul>
+                                <li>Nimmt den Link aus der Gruppenbeschreibung</li>
+                                <li>Schickt Link in die Gruppe</li>
+                            </ul>
+                        </td>
+                    </tr>
+                        <td>!sofort</td>
+                        <td>
+                            <ul>
+                                <li>Erstellt eine neue Konferenz</li>
+                                <li>Schickt Link in die Gruppe</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>!einladen</td>
+                        <td>
+                            <ul>
+                                <li>Nimmt den Link aus der Gruppenbeschreibung oder erstellt eine neue Konferenz </li>
+                                <li>Schickt Link in die Gruppe und benachrichtigt die ganze Gruppe</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>!version</td>
+                        <td>
+                            <ul>
+                                <li>Teilt die Matrix Bot Version</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>!hilfe</td>
+                        <td>
+                            <ul>
+                                <li>Schickt diese Hilfe</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            `
         )
     }
 

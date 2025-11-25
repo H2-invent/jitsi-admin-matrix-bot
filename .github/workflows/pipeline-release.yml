@@ -48,7 +48,8 @@ jobs:
       registry: reg.h2-invent.com
       dockerfile_path: './Dockerfile'
       directory: '.'
-      version: reg.h2-invent.com/meetling/matrix-bot:latest,reg.h2-invent.com/meetling/matrix-bot:${{ needs.create_release.outputs.create_release_output }}
+      version: ${{ needs.create_release.outputs.create_release_output }}
+      tags: reg.h2-invent.com/meetling/matrix-bot:latest,reg.h2-invent.com/meetling/matrix-bot:${{ needs.create_release.outputs.create_release_output }}
     secrets:
       dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
       dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
