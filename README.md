@@ -28,8 +28,35 @@ Dies ist ein Bot, der für die Verwaltung von Jitsi-Meetings über Matrix erstel
 1. Bauen der Anwendung und Starten des Containers mit `docker compose`:
 
    ```shell
-   docker-compose up --build -d
+   docker compose up --build -d
    ```
+   
+
+#### Spezielle Kommandos per Socket
+
+Sie können dem Bot per Unix Socket Kommandos schicken, während er läuft und online ist. Er befindet sich unter `/run/jitsi-admin-matrix-bot/command.sock`
+
+##### Einfache Verwendung mit dem socket-command Script
+
+Das mitgelieferte Script `socket-command` bietet eine benutzerfreundliche Möglichkeit, Kommandos an den Bot zu senden:
+
+```shell
+# Interaktiver Modus - zeigt Menü mit verfügbaren Kommandos
+docker compose exec matrix-bot ./socket-command
+
+# Direktes Senden eines Kommandos per Name
+docker compose exec matrix-bot ./socket-command i-am-back
+
+# Hilfe anzeigen
+docker compose exec matrix-bot ./socket-command --help
+```
+
+##### Manuelle Verwendung
+
+- Ich bin wieder zurück!
+  - `i-am-back`
+  - Auf dem Server: `echo 'i-am-back' | socat - /run/jitsi-admin-matrix-bot/command.sock`
+  - Docker Compose: `docker compose exec matrix-bot sh -c "echo 'i-am-back' | socat - /run/jitsi-admin-matrix-bot/command.sock"`
 
 ### Hinweise
 

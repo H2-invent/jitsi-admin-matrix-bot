@@ -1,0 +1,185 @@
+#!/usr/bin/env bash
+
+# Matrix Jitsi-admin Bot Command Sender
+# This script provides an easy interface to send commands to the bot via Unix socket
+
+# Configuration
+SOCKET_PATH="/run/jitsi-admin-matrix-bot/command.sock"
+SCRIPT_NAME=$(basename "$0")
+
+# Available commands
+declare -A COMMANDS=(
+    ["1"]="i-am-back"
+)
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Function to display usage
+show_usage() {
+    echo -e "${BLUE}Usage:${NC}"
+    echo "  $SCRIPT_NAME [command]"
+    echo "  $SCRIPT_NAME --help|-h"
+    echo ""
+    echo -e "${BLUE}Available commands:${NC}"
+    for key in "${!COMMANDS[@]}"; do
+        echo -e "  ${GREEN}$key${NC}) ${COMMANDS[$key]}"
+    done
+    echo ""
+    echo -e "${BLUE}Examples:${NC}"
+    echo "  $SCRIPT_NAME              # Interactive mode"
+    echo "  $SCRIPT_NAME i-am-back     # Send command by name"
+}
+
+# Function to check if socket exists and is accessible
+check_socket() {
+    if [[ ! -S "$SOCKET_PATH" ]]; then
+        echo -e "${RED}Error:${NC} Socket not found at $SOCKET_PATH"
+        echo "Make sure the Matrix Jitsi-admin Bot is running."
+        return 1
+    fi
+
+    if [[ ! -w "$SOCKET_PATH" ]]; then
+        echo -e "${RED}Error:${NC} No write permission to socket $SOCKET_PATH"
+        echo "You might need to run this script with appropriate permissions."
+        return 1
+    fi
+
+    return 0
+}
+
+# Function to check if socat is available
+check_socat() {
+    if ! command -v socat &> /dev/null; then
+        echo -e "${RED}Error:${NC} 'socat' command not found."
+        echo "Please install socat: sudo apt-get install socat"
+        return 1
+    fi
+    return 0
+}
+
+# Function to send command via socket
+send_command() {
+    local command="$1"
+
+    echo -e "${BLUE}Sending command:${NC} $command"
+
+    if echo "$command" | socat - "$SOCKET_PATH" 2>/dev/null; then
+        echo -e "${GREEN}✓ Command sent successfully${NC}"
+        return 0
+    else
+        echo -e "${RED}✗ Failed to send command${NC}"
+        echo "The bot might not be responding or the socket is not available."
+        return 1
+    fi
+}
+
+# Function to display interactive menu
+show_menu() {
+    echo -e "${BLUE}Matrix Jitsi-admin Bot Command Sender${NC}"
+    echo "======================================"
+    echo ""
+    echo "Available commands:"
+    for key in "${!COMMANDS[@]}"; do
+        echo -e "  ${GREEN}$key${NC}) ${COMMANDS[$key]}"
+    done
+    echo -e "  ${GREEN}q${NC}) Quit"
+    echo ""
+}
+
+# Function to get user input in interactive mode
+interactive_mode() {
+    while true; do
+        show_menu
+        read -rp "Select a command (number or 'q' to quit): " choice
+
+        case "$choice" in
+            "q"|"Q")
+                echo "Goodbye!"
+                exit 0
+                ;;
+            "")
+                echo -e "${YELLOW}Please enter a valid choice.${NC}"
+                echo ""
+                continue
+                ;;
+            *)
+                if [[ -n "${COMMANDS[$choice]}" ]]; then
+                    send_command "${COMMANDS[$choice]}"
+                    echo ""
+                    read -rp "Press Enter to continue..."
+                    echo ""
+                else
+                    echo -e "${YELLOW}Invalid choice: $choice${NC}"
+                    echo ""
+                fi
+                ;;
+        esac
+    done
+}
+
+# Function to find command by name or number
+find_command() {
+    local input="$1"
+
+    # Check if it's a direct command number
+    if [[ -n "${COMMANDS[$input]}" ]]; then
+        echo "${COMMANDS[$input]}"
+        return 0
+    fi
+
+    # Check if it's a command name
+    for key in "${!COMMANDS[@]}"; do
+        if [[ "${COMMANDS[$key]}" == "$input" ]]; then
+            echo "$input"
+            return 0
+        fi
+    done
+
+    return 1
+}
+
+# Main script logic
+main() {
+    # Check for help flag
+    if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+        show_usage
+        exit 0
+    fi
+
+    # Perform prerequisite checks
+    if ! check_socat; then
+        exit 1
+    fi
+
+    if ! check_socket; then
+        exit 1
+    fi
+
+    # If no arguments provided, run in interactive mode
+    if [[ $# -eq 0 ]]; then
+        interactive_mode
+        exit 0
+    fi
+
+    # Handle command line argument
+    local command_input="$1"
+    local command
+
+    if command=$(find_command "$command_input"); then
+        send_command "$command"
+        exit $?
+    else
+        echo -e "${RED}Error:${NC} Unknown command: $command_input"
+        echo ""
+        show_usage
+        exit 1
+    fi
+}
+
+# Run main function with all arguments
+main "$@"
