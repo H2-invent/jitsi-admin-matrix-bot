@@ -6,14 +6,14 @@ import config from './src/config.mjs'
 do {
     try {
         // when bots restarts it re-reads all messages inside the channel and re-executes all commands.
-        // if we generate new encryption keys every time the old messages can't be read and thus, will not be re-executed
+        // if we generate new encryption keys every time the old messages can't be decrypted and thus, will not be re-executed
         await clearStorage()
         await login()
         await startBot()
-    } catch (e) {
-        console.log('Bot crashed: %s - %s', e.name, e.message)
+    } catch ({name, message}) {
+        console.log('Bot crashed: %s - %s', name, message)
         await sleep(5000)
-        console.log('Restarting...', e.name, e.message)
+        console.log('Restarting...', name, message)
     }
 } while (config.AUTO_RESTART)
 
