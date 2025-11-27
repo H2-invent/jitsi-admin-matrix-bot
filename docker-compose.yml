@@ -1,6 +1,6 @@
 services:
   matrix-bot:
-    image: reg.h2-invent.com/meetling/matrix-bot@sha256:64cb53c36933532f4ee0bc57f0c551900139dbddfdb338aa8557bb2ac64b7f76
+    build: .
     env_file:
       - .env
     restart: unless-stopped
