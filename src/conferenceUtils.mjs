@@ -166,7 +166,7 @@ export default class conferenceUtils {
         text += `<b>Hier sind einige Dinge, die ich tun kann:</b>
             <br><br>
             <ul>
-                <li>📹️ Ich kann Videokonfernzen in diesem Raumn erstellen und verwalten</li>
+                <li>📹️ Ich kann Videokonferenzen in diesem Raumn erstellen und verwalten</li>
                 <li>✅ Um auf alle meine Funktionen zugreifen zu können machen Sie mich bitte zu einem MODERATOR.</li>
                 <li>❓️ Alle weiteren Informationen erhalten Sie durch tippen von "!hilfe"</li>
             </ul>`
