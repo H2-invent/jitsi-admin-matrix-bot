@@ -12,9 +12,9 @@ export default async function startBot() {
     const cryptoProvider = new RustSdkCryptoStorageProvider(config.STORAGE_CRYPTO_DIR)
 
     client = new MatrixClient(config.MATRIX_URL, config.MATRIX_TOKEN, storageProvider, cryptoProvider)
-    AutojoinRoomsMixin.setupOnClient(client)
     client.on('room.message', handleCommand)
     client.on('room.join', handleMembership)
+    client.on('room.invite', handleInvite);
 
     try {
         await client.start()
@@ -88,4 +88,13 @@ async function handleSocketCommand(data) {
 
 async function handleMembership(roomId, event) {
     await conferenceUtil.sendWelcome(roomId)
+}
+
+async function handleInvite (roomId, event) {
+    try {
+        await client.joinRoom(roomId)
+    } catch (e) {
+        console.log("Could not join room! Here's the event:")
+        console.log(event)
+    }
 }
