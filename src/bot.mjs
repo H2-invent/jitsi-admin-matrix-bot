@@ -1,4 +1,8 @@
-import { AutojoinRoomsMixin, MatrixClient, RustSdkCryptoStorageProvider, SimpleFsStorageProvider } from 'matrix-bot-sdk'
+import {
+    MatrixClient,
+    RustSdkCryptoStorageProvider,
+    SimpleFsStorageProvider,
+} from 'matrix-bot-sdk'
 import config from './config.mjs'
 import conferenceUtils from './conferenceUtils.mjs'
 import net from 'node:net'

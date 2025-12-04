@@ -2,6 +2,7 @@ import { md5 } from 'js-md5'
 import { MatrixClient } from 'matrix-bot-sdk'
 import config from './config.mjs'
 import { hrtime } from 'node:process'
+import { sleep } from './utils.mjs'
 
 export default class conferenceUtils {
     /** @type MatrixClient */
@@ -210,12 +211,16 @@ export default class conferenceUtils {
     async #sendIAmBackToAllJoinedRooms() {
         const joinedRooms = await this.#client.getJoinedRooms()
         for (const roomId of joinedRooms) {
-            if (await this.#client.userHasPowerLevelFor(this.#client.getUserId(), roomId, 'm.room.message', false)) {
-                // even though we check for the correct powerLevel, sometimes it will still throw M_FORBIDDEN, but let's disregard that for now
-                try {
-                    await this.#sendIAmBack(roomId)
-                } catch (e) {}
+            if (!(await this.#client.userHasPowerLevelFor(this.#client.getUserId(), roomId, 'm.room.message', false))) {
+                continue;
             }
+
+            // even though we check for the correct powerLevel, sometimes it will still throw M_FORBIDDEN, but let's disregard that for now
+            try {
+                await this.#sendIAmBack(roomId)
+            } catch (e) {}
+            // we had problems with the rate limiting for this, so we wait a second between each room join
+            await sleep(1000)
         }
     }
 
