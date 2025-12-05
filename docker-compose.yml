@@ -4,3 +4,8 @@ services:
     env_file:
       - .env
     restart: unless-stopped
+    volumes:
+      - storage:/home/node/app/storage
+
+volumes:
+  storage:
